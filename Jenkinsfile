@@ -3,7 +3,7 @@ node{
     env.PATH = "${env.PATH}:${MAVEN_HOME}/bin"
 
     stage('checkout'){
-        checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/tanvi23d/credit-service.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/development']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/tanvi23d/credit-service.git']]])
     }
     
     stage('compile'){
