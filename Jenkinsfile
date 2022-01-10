@@ -1,7 +1,7 @@
 node{
     def MAVEN_HOME = tool "testmaven"
     env.PATH = "${env.PATH}:${MAVEN_HOME}/bin"
-	test('checkout'){}
+	
 
     stage('checkout'){
         checkout([$class: 'GitSCM', branches: [[name: '*/development']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/tanvi23d/credit-service.git']]])
