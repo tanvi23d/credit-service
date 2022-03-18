@@ -17,7 +17,7 @@ node{
 	{
 		withSonarQubeEnv('tanvisonar') 
 		{
-                 sh 'mvn sonar:sonar -Dsonar.organization=tanvi23d -Dsonar.projectKey=credit-service'
+                 sh 'mvn sonar:sonar -Dsonar.organization=tanvi23d -Dsonar.projectKey=credit-service1'
 		
     		}
 	 }
