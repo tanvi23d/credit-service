@@ -1,3 +1,10 @@
+podTemplate(cloud: 'kubernetes',label: 'kubernetes',
+            containers: [
+                    containerTemplate(name: 'podman', image: 'quay.io/containers/podman', privileged: true, command: 'cat', ttyEnabled: true)
+					
+            ]) 
+{
+
 node{
     def MAVEN_HOME = tool "mymaven"
     env.PATH = "${env.PATH}:${MAVEN_HOME}/bin"
@@ -18,18 +25,25 @@ node{
 		withSonarQubeEnv('tanvisonar') 
 		{
                  sh 'mvn sonar:sonar -Dsonar.organization=tanvi23d -Dsonar.projectKey=credit-service1'
-		
+		 stash includes: '*', name: 'myproject'
+
     		}
 	 }
 	 
-	 stage("Quality Gate"){
-          timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
-          }
-      }
+	 
 
     
 }
+	
+node('kubernetes'){
+   container('podman') {
+	stage('Image Build'){
+	   unstash 'myproject'
+	   sh 'podman image build -t credit-service .'	
+		
+	}
+   }
+}
+  
+}
+
